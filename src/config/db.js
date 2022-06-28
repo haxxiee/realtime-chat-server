@@ -11,7 +11,7 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
   const users = `
       CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL
+      name TEXT NOT NULL UNIQUE
       )`;
   const rooms = `
       CREATE TABLE rooms (
