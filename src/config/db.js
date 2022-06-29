@@ -7,6 +7,7 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
   }
 
   console.log("Connection established");
+  db.get("PRAGMA foreign_keys = ON");
 
   const users = `
       CREATE TABLE users (
@@ -18,19 +19,38 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL UNIQUE
       )`;
+  // const messages = `
+  //     CREATE TABLE messages (
+  //     id TEXT PRIMARY KEY,
+  //     message TEXT NOT NULL,
+  //     user TEXT NOT NULL,
+  //     room_id INTEGER NOT NULL,
+  //     user_id INTEGER NOT NULL,
+  //     FOREIGN KEY (user)
+  //         REFERENCES users (name)
+  //         ON DELETE CASCADE,
+  //     FOREIGN KEY (room_id)
+  //         REFERENCES rooms (id)
+  //         ON DELETE CASCADE,
+  //     FOREIGN KEY (user_id)
+  //         REFERENCES users (id)
+  //         ON DELETE CASCADE
+  //     )`;
+
   const messages = `
       CREATE TABLE messages (
       id TEXT PRIMARY KEY,
       message TEXT NOT NULL,
-      user TEXT NOT NULL,
-      room_id INTEGER NOT NULL,
-      user_id INTEGER NOT NULL,
-      FOREIGN KEY (room_id)
-          REFERENCES rooms (id)
-          ON DELETE CASCADE,
-      FOREIGN KEY (user_id)
-          REFERENCES users (id)
-          ON DELETE CASCADE
+      room_id INTEGER,
+      user_id INTEGER,
+      CONSTRAINT fk_room_id
+       FOREIGN KEY(room_id) 
+       REFERENCES rooms(id)
+       ON DELETE CASCADE,
+      CONSTRAINT fk_user_id
+       FOREIGN KEY(user_id)
+       REFERENCES users(id)
+       ON DELETE CASCADE
       )`;
 
   db.run(users, (error) => {
@@ -58,7 +78,17 @@ const db = new sqlite3.Database("./db.sqlite", (error) => {
     }
   });
   db.run(messages, (error) => {
-    if (error) console.error(error.message);
+    if (error) {
+      console.error(error.message);
+      return;
+    } else {
+      const insertMessage =
+        "INSERT INTO messages (id, message, room_id, user_id) VALUES (?, ?, ?, ?);";
+
+      db.run(insertMessage, ["AF34GGf9s7", "Tjenare Jonas!", 1, 1]);
+      db.run(insertMessage, ["KGSDL3252", "lassebror", 2, 2]);
+      db.run(insertMessage, ["OLSFKSEG42", "FYFAN VA BRA", 1, 1]);
+    }
   });
 });
 

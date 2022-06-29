@@ -10,8 +10,9 @@ const io = new Server(server, {
   },
 });
 
-const { getAllUsers, createUser, getUser } = require("./utils/users");
-const { getAllRooms, createRoom } = require("./utils/rooms");
+const { getAllUsers, createUser } = require("./utils/users");
+const { getAllRooms, createRoom, deleteRoom } = require("./utils/rooms");
+const { getMessages, deleteMessages } = require("./utils/messages");
 
 const db = require("./config/db");
 const PORT = process.env.PORT || 4000;
@@ -27,15 +28,24 @@ io.on("connection", (socket) => {
 
   socket.on("create_user", async (user) => {
     await createUser(socket, user);
-
-    //Ska skicka userinfo och spara som state
-    // const data = await getUser(user);
-    // console.log(data);
-    // socket.emit("user_info", data);
   });
 
   socket.on("create_room", async (room) => {
-    createRoom(socket, room);
+    await createRoom(socket, room);
+  });
+
+  socket.on("delete_room", async (room) => {
+    await deleteRoom(socket, room);
+    await deleteMessages(room);
+  });
+
+  socket.on("get_messages", async (room) => {
+    const messages = await getMessages(room);
+    const test = await getMessages("Room 2");
+    console.log("First mes", messages, "Then test", test);
+    console.log(room);
+
+    socket.emit("messages", messages);
   });
 });
 

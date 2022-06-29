@@ -37,7 +37,26 @@ async function createRoom(socket, room) {
     : socket.emit("room_error", "NEED TO FILL IN ROOM NAME");
 }
 
+function deleteRoom(socket, room) {
+  const sql = `DELETE FROM rooms WHERE name = ?`;
+
+  room.length > 1
+    ? new Promise((resolve, reject) => {
+        db.all(sql, room, async (error) => {
+          if (error) {
+            console.error(error.message);
+            reject(error);
+          }
+          const rooms = await getAllRooms();
+
+          resolve();
+        });
+      })
+    : socket.emit("room_error", "NEED TO FILL IN ROOM NAME");
+}
+
 module.exports = {
   getAllRooms,
   createRoom,
+  deleteRoom,
 };
