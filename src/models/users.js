@@ -14,7 +14,6 @@ function getAllUsers() {
   });
 }
 
-// UNIKA NAMN? FÖR ATT HITTA USER
 async function getUser(username) {
   const users = await getAllUsers();
 
