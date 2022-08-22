@@ -1,14 +1,31 @@
 const db = require("../config/db");
 
-function getAllRooms() {
+async function getAllRooms() {
   const sql = `SELECT * FROM rooms`;
 
-  return db.query(sql, (error, rows) => {
-    if (error) {
-      console.error(error.message);
-    }
-    return rows;
-  });
+  // return db.query(sql, (error, res) => {
+  //   if (error) {
+  //     console.error(error.message);
+  //   } else {
+  //     console.log(res.rows);
+  //     return res.rows;
+  //   }
+  // });
+  // await db.query(sql, function (error, res) {
+  //   if (error) {
+  //     console.error(error.message);
+  //   }
+  //   console.log(res.rows);
+  //   test = res.rows;
+  //   return res.rows;
+  // });
+
+  return db
+    .query(sql)
+    .then((res) => {
+      return res.rows;
+    })
+    .catch((e) => console.error(e.stack));
 }
 
 async function createRoom(socket, room) {
@@ -31,7 +48,7 @@ async function createRoom(socket, room) {
 }
 
 function deleteRoom(socket, room) {
-  const sql = `DELETE FROM rooms WHERE name = ?`;
+  const sql = `DELETE FROM rooms WHERE name = $1`;
 
   room.length > 1
     ? db.query(sql, [room], async (error) => {

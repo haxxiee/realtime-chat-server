@@ -31,9 +31,8 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   console.log(`User with id ${socket.id} has connected`);
 
-  socket.on("ready", () => {
-    const rooms = getAllRooms();
-    console.log(rooms);
+  socket.on("ready", async () => {
+    const rooms = await getAllRooms();
     socket.emit("initial_data", rooms);
   });
 

@@ -16,12 +16,19 @@ async function getMessages(socket, room) {
       return;
     }
 
-    return db.query(sql, findRoom.id, (error, rows) => {
-      if (error) {
-        console.error(error.message);
-      }
-      return rows;
-    });
+    // return db.query(sql, [findRoom.id], (error, rows) => {
+    //   if (error) {
+    //     console.error(error.message);
+    //   }
+    //   return rows;
+    // });
+
+    return db
+      .query(sql, [findRoom.id])
+      .then((res) => {
+        return res.rows;
+      })
+      .catch((e) => console.error(e.stack));
   }
 }
 
@@ -68,7 +75,7 @@ async function deleteMessages(room) {
     const rooms = await getAllRooms();
     const { id } = rooms.filter((x) => x.name === room);
 
-    return db.query(sql, id, (error) => {
+    return db.query(sql, [id], (error) => {
       if (error) {
         console.error(error.message);
       }
