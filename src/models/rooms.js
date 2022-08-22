@@ -22,7 +22,7 @@ async function createRoom(socket, room) {
     return;
   }
   room.length > 1
-    ? db.query(sql, room, (error) => {
+    ? db.query(sql, [room], (error) => {
         if (error) {
           console.error(error.message);
         }
@@ -34,7 +34,7 @@ function deleteRoom(socket, room) {
   const sql = `DELETE FROM rooms WHERE name = ?`;
 
   room.length > 1
-    ? db.query(sql, room, async (error) => {
+    ? db.query(sql, [room], async (error) => {
         if (error) {
           console.error(error.message);
         }
