@@ -14,6 +14,10 @@ function getAllUsers() {
 async function getUser(username) {
   const users = await getAllUsers();
 
+  if (users === undefined) {
+    users = [];
+  }
+
   const found = users.find(
     (obj) => obj.name.toLowerCase() === username.toLowerCase()
   );
