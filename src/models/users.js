@@ -40,7 +40,7 @@ async function createUser(socket, user) {
     return;
   }
   user.length > 1
-    ? db.query(sql, user, async (error) => {
+    ? db.query(sql, [user], async (error) => {
         if (error) {
           console.error(error.message);
         }
