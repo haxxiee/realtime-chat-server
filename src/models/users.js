@@ -24,11 +24,11 @@ async function getUser(username) {
 async function createUser(socket, user) {
   const sql = `INSERT INTO users (name) VALUES ($1)`;
 
-  const users = await getAllUsers();
+  let users = await getAllUsers();
   const checkUsername = (obj) => obj.name.toLowerCase() === user.toLowerCase();
 
   if (users === undefined) {
-    users == [];
+    users = [];
   }
 
   if (users.some(checkUsername)) {
