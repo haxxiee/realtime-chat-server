@@ -12,7 +12,7 @@ function getAllUsers() {
 }
 
 async function getUser(username) {
-  const users = await getAllUsers();
+  let users = await getAllUsers();
 
   if (users === undefined) {
     users = [];
