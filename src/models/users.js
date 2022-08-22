@@ -27,6 +27,10 @@ async function createUser(socket, user) {
   const users = await getAllUsers();
   const checkUsername = (obj) => obj.name.toLowerCase() === user.toLowerCase();
 
+  if (users === undefined) {
+    users == [];
+  }
+
   if (users.some(checkUsername)) {
     socket.emit("user_error", "USERNAME ALREADY IN USE");
     return;
