@@ -51,10 +51,10 @@ db.query(rooms, (error) => {
     console.error(error);
     throw error;
   }
-  db.query("INSERT INTO rooms (name) VALUES ($1)", "Room1");
-  db.query("INSERT INTO rooms (name) VALUES ($1)", "Room2");
-  db.query("INSERT INTO rooms (name) VALUES ($1)", "Room3");
-  db.query("INSERT INTO rooms (name) VALUES ($1)", "Room4");
+  db.query("INSERT INTO rooms (name) VALUES ($1)", ["Room1"]);
+  db.query("INSERT INTO rooms (name) VALUES ($1)", ["Room2"]);
+  db.query("INSERT INTO rooms (name) VALUES ($1)", ["Room3"]);
+  db.query("INSERT INTO rooms (name) VALUES ($1)", ["Room4"]);
 });
 
 db.query(messages, (error) => {
