@@ -16,13 +16,6 @@ async function getMessages(socket, room) {
       return;
     }
 
-    // return db.query(sql, [findRoom.id], (error, rows) => {
-    //   if (error) {
-    //     console.error(error.message);
-    //   }
-    //   return rows;
-    // });
-
     return db
       .query(sql, [findRoom.id])
       .then((res) => {

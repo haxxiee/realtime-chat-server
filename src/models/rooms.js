@@ -3,23 +3,6 @@ const db = require("../config/db");
 async function getAllRooms() {
   const sql = `SELECT * FROM rooms`;
 
-  // return db.query(sql, (error, res) => {
-  //   if (error) {
-  //     console.error(error.message);
-  //   } else {
-  //     console.log(res.rows);
-  //     return res.rows;
-  //   }
-  // });
-  // await db.query(sql, function (error, res) {
-  //   if (error) {
-  //     console.error(error.message);
-  //   }
-  //   console.log(res.rows);
-  //   test = res.rows;
-  //   return res.rows;
-  // });
-
   return db
     .query(sql)
     .then((res) => {
